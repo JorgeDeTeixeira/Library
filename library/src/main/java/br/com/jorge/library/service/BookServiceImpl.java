@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.jorge.library.exception.BookNotFoundException;
 import br.com.jorge.library.model.Book;
 import br.com.jorge.library.repository.BookRepository;
 
+@Service
 public class BookServiceImpl implements BookService {
 
 	@Autowired
@@ -41,7 +43,7 @@ public class BookServiceImpl implements BookService {
 			existingBook.setPublishedDate(book.getPublishedDate());
 			existingBook.setIsbn(book.getIsbn());
 
-			return bookRepository.save(book);
+			return bookRepository.save(existingBook);
 		} else {
 			throw new BookNotFoundException("Book not found with id " + id);
 		}

@@ -2,6 +2,7 @@ package br.com.jorge.library.model;
 
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,9 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Representa um livro na biblioteca.
- */
 @Entity
 @Table(name = "books")
 @Getter
@@ -26,32 +24,26 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Schema(description = "Details about the book")
 public class Book {
+	@Schema(description = "Unique identifier of the book", example = "1")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	/**
-     * O título do livro.
-     */
+	@Schema(description = "Title of the book", example = "Effective Java")
 	@NotBlank(message = "Title não pode ser vazio.")
 	private String title;
 
-	/**
-     * O autor do livro. Valor padrão é "Desconhecido".
-     */
+	@Schema(description = "Author of the book", example = "Joshua Bloch")
 	private String author = "Desconhecido";
 
-	/**
-     * A data de publicação do livro. Não pode ser no futuro.
-     */
+	@Schema(description = "Date when the book was published", example = "2008-05-28")
 	@NotNull(message = "Published Date não pode ser nulo.")
 	@PastOrPresent(message = "Published Date não pode ser no futuro.")
 	private LocalDate publishedDate;
 
-	/**
-     * O ISBN do livro. Não pode ser vazio.
-     */
+	@Schema(description = "ISBN of the book", example = "978-0134685991")
 	@NotBlank(message = "ISBN não pode ser vazio.")
 	private String isbn;
 }

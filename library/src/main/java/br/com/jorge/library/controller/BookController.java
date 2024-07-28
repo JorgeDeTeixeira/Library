@@ -17,55 +17,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jorge.library.model.Book;
 import br.com.jorge.library.service.BookServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Books", description = "Operations related to books")
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 	@Autowired
 	private BookServiceImpl bookService;
 
-	/**
-	 * Cria um novo livro.
-	 *
-	 * @param book O livro a ser criado.
-	 * @return A resposta com o livro criado e o status HTTP.
-	 */
 	@PostMapping
 	public ResponseEntity<Book> createBook(@RequestBody Book book) {
 		Book createdBook = bookService.save(book);
 		return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
 	}
 
-	/**
-	 * Recupera um livro pelo ID.
-	 *
-	 * @param id O ID do livro.
-	 * @return A resposta com o livro e o status HTTP.
-	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Book> getBook(@PathVariable Long id) {
 		Optional<Book> book = bookService.findById(id);
 		return book.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
-	/**
-	 * Recupera todos os livros.
-	 *
-	 * @return A resposta com a lista de livros e o status HTTP.
-	 */
 	@GetMapping
 	public ResponseEntity<List<Book>> getAllBooks() {
 		List<Book> books = bookService.findAll();
 		return ResponseEntity.ok(books);
 	}
 
-	/**
-	 * Atualiza um livro existente.
-	 *
-	 * @param id   O ID do livro a ser atualizado.
-	 * @param book O livro com os novos dados.
-	 * @return A resposta com o livro atualizado e o status HTTP.
-	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
 		try {
@@ -76,12 +54,6 @@ public class BookController {
 		}
 	}
 
-	/**
-	 * Exclui um livro pelo ID.
-	 *
-	 * @param id O ID do livro a ser excluído.
-	 * @return A resposta com o status HTTP.
-	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
 		try {
